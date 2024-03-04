@@ -1,10 +1,17 @@
-FROM ubuntu:trusty
+FROM selenium/standalone-chrome
 
+# Install additional dependencies for your Java GUI application
 RUN apt-get update && \
-    apt-get install -y socat
+    apt-get install -y \
+    <additional-package1> \
+    <additional-package2> \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY entrypoint.sh /serveconfig
+# Set the working directory
+WORKDIR /usr/local/umleditor
 
-WORKDIR /serveconfig
+# Copy the JAR file to the container
+COPY ./umleditor.jar .
 
-ENTRYPOINT ["./entrypoint.sh"]
+# Set the entrypoint command
+CMD ["java", "-jar", "umleditor.jar", "--gui"]

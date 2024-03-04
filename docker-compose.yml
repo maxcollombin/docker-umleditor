@@ -1,10 +1,15 @@
 version: '3'
+
 services:
-  uml_editor:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+  umleditor:
+    image: selenium/standalone-chrome
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./umleditor:/usr/local/umleditor
     environment:
-      - DISPLAY=${DISPLAY}
+      - DISPLAY=:99
+      - XAUTHORITY=/tmp/.docker.xauth
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/snd
